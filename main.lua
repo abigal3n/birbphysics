@@ -106,6 +106,7 @@ function love.update(dt)
     if birby < 2300 then
         birbYAccel = gravity + yAcceleration
         birbXAccel = xAcceleration --will eventually be air resistance
+        birb = love.graphics.newImage("flyingbirb.png")
     else
         if birbVx > 0.5 then
             birbGroundAccel = negbirbGroundAccel
@@ -117,6 +118,7 @@ function love.update(dt)
         birbXAccel = xAcceleration + birbGroundAccel
         birbYAccel = gravity - gravity + yAcceleration
         birbVy = (birbVy*birbMass) / (birbMass + groundMass)
+        birb = love.graphics.newImage("birb.png")
     end
     birbVx = birbVx + birbXAccel * dt
     birbVy = birbVy + birbYAccel * dt
