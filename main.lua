@@ -23,11 +23,16 @@ local xAcceleration = Fx / birbMass
 
 function love.load()
     birb = love.graphics.newImage("birb.png")
+    flyingbirb = love.graphics.newImage("flyingbirb.png")
+    local activebirb
     titleFont = love.graphics.newFont(100)
     basicFont = love.graphics.newFont(15)
 end
 
 function love.update(dt)
+    -- if love.keyboard.isDown("up") then
+        
+    -- end
     if love.keyboard.isDown("d") then
         --upForce = -birbMass * gravity * 1.2 * dt
         Fx = 100
@@ -49,7 +54,7 @@ function love.update(dt)
     if birby < 2300 then
         birbYAccel = gravity + yAcceleration
         birbXAccel = xAcceleration --will eventually be air resistance
-        birb = love.graphics.newImage("flyingbirb.png")
+        activebirb = flyingbirb
     else
         if birbVx > 0.5 then
             birbGroundAccel = negbirbGroundAccel
@@ -61,7 +66,7 @@ function love.update(dt)
         birbXAccel = xAcceleration + birbGroundAccel
         birbYAccel = gravity - gravity + yAcceleration
         birbVy = (birbVy*birbMass) / (birbMass + groundMass)
-        birb = love.graphics.newImage("birb.png")
+        activebirb = birb
     end
     birbVx = birbVx + birbXAccel * dt
     birbVy = birbVy + birbYAccel * dt
@@ -78,6 +83,6 @@ function love.draw()
     love.graphics.print(tostring(birbXAccel), 700, 500)
     love.graphics.scale(0.2, 0.2)
     -- love.graphics.draw(trum, trumx, trumy)
-    love.graphics.draw(birb, birbx, birby)
+    love.graphics.draw(activebirb, birbx, birby)
     love.graphics.scale(1,1)
 end
