@@ -20,7 +20,7 @@ local Fy = 0 --newtons
 local Fx = 0
 local yAcceleration = Fy / birbMass
 local xAcceleration = Fx / birbMass
-
+user = { x = 100, y = 200, theta = 90}
 function love.load()
     birb = love.graphics.newImage("birb.png")
     flyingbirb = love.graphics.newImage("flyingbirb.png")
