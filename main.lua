@@ -33,19 +33,22 @@ function love.update(dt)
     -- if love.keyboard.isDown("up") then
         
     -- end
+    if love.keyboard.isDown('escape') then
+        love.event.push('quit')
+    end
     if love.keyboard.isDown("d") then
         --upForce = -birbMass * gravity * 1.2 * dt
-        Fx = 100
+        Fx = 200
     elseif love.keyboard.isDown("a") then
-        Fx = -100
+        Fx = -200
     else
         Fx = 0
     end
     if love.keyboard.isDown("w") then
         --upFo-rce = -birbMass * gravity * 1.2 * dt
-        Fy = -100
+        Fy = -200
     elseif love.keyboard.isDown("s") then
-        Fy = 100
+        Fy = 200
     else
         Fy = 0
     end
