@@ -22,67 +22,10 @@ local yAcceleration = Fy / birbMass
 local xAcceleration = Fx / birbMass
 
 function love.load()
-    trum = love.graphics.newImage("trum.png")
     birb = love.graphics.newImage("birb.png")
+    titleFont = love.graphics.newFont(100)
+    basicFont = love.graphics.newFont(15)
 end
-
--- function love.update(dt)
---     -- if love.keyboard.isDown("right") then
---     --     trumx = trumx + 100 * dt
---     -- end
---     -- if love.keyboard.isDown("left") then
---     --     trumx = trumx - 100 * dt
---     -- end
---     -- if love.keyboard.isDown("down") then
---     --     trumy = trumy + 100 * dt
---     -- end
---     -- if love.keyboard.isDown("up") then
---     --     trumy = trumy - 100 * dt
---     -- end
---     if love.keyboard.isDown("d") then
---         --upForce = -birbMass * gravity * 1.2 * dt
---         Fx = 100
---     elseif love.keyboard.isDown("a") then
---         Fx = -100
---     else
---         Fx = 0
---     end
---     if love.keyboard.isDown("w") then
---         --upFo-rce = -birbMass * gravity * 1.2 * dt
---         Fy = -100
---     elseif love.keyboard.isDown("s") then
---         Fy = 100
---     else
---         Fy = 0
---     end
---     xAcceleration = Fx / birbMass
---     yAcceleration = Fy / birbMass
---     if love.keyboard.isDown("a") then
---         birbVx = birbVx + 10 * dt
---     end
---     if birbVx > 0 then
---         birbGroundAccel = -birbGroundAccel
---     else if birbVx < 0 then
---         birbGroundAccel = birbGroundAccel
---     end
---     if birby < 2300 then
---         birbYAccel = gravity - yAcceleration
---         birbXAccel = xAcceleration --will eventually be air resistance
---     else
---         if birbVx > 0 then
---             birbXAccel = -birbGroundAccel
---         else
---             birbVx = 0
---         end
---         birbXAccel = xAcceleration + birbGroundAccel
---         birbYAccel = gravity - gravity + yAcceleration
---         birbVy = (birbVy*birbMass) / (birbMass + groundMass)
---     end
---     birbVx = birbVx + (birbXAccel) * dt
---     birbVy = birbVy + (birbYAccel) * dt
---     birbx = birbx + birbVx * dt
---     birby = birby + birbVy * dt
--- end
 
 function love.update(dt)
     if love.keyboard.isDown("d") then
@@ -127,11 +70,14 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.print("Hello World", 300, 300)
+    love.graphics.setBackgroundColor(0.871,0.365,0.639)
+    love.graphics.setFont(titleFont)
+    love.graphics.print("BIRB PHYSICS", 100, 300)
+    love.graphics.setFont(basicFont)
     love.graphics.print(tostring(birbYAccel), 500, 500)
     love.graphics.print(tostring(birbXAccel), 700, 500)
     love.graphics.scale(0.2, 0.2)
-    love.graphics.draw(trum, trumx, trumy)
+    -- love.graphics.draw(trum, trumx, trumy)
     love.graphics.draw(birb, birbx, birby)
     love.graphics.scale(1,1)
 end
