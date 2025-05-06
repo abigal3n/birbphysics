@@ -20,18 +20,20 @@ local Fy = 0 --newtons
 local Fx = 0
 local yAcceleration = Fy / birbMass
 local xAcceleration = Fx / birbMass
+local xAirResistance = 0
+local yAirResistance = 0
+local activebirb
 user = { x = 100, y = 200, theta = 90}
 function love.load()
     birb = love.graphics.newImage("birb.png")
     flyingbirb = love.graphics.newImage("flyingbirb.png")
-    local activebirb
+    activebirb = flyingbirb
     titleFont = love.graphics.newFont(100)
     basicFont = love.graphics.newFont(15)
 end
 
 function love.update(dt)
     -- if love.keyboard.isDown("up") then
-        
     -- end
     if love.keyboard.isDown('escape') then
         love.event.push('quit')
@@ -54,9 +56,11 @@ function love.update(dt)
     end
     xAcceleration = Fx / birbMass
     yAcceleration = Fy / birbMass
+    --xAirResistance = (0.5 * 1.293 * 0.4 * birbVx*birbVx * activebirb:getWidth() * activebirb:getWidth())
+    --yAirResistance = (0.5 * 1.293 * 0.4 * birbVy*birbVy * activebirb:getWidth()* activebirb:getWidth())
     if birby < 2300 then
-        birbYAccel = gravity + yAcceleration
-        birbXAccel = xAcceleration --will eventually be air resistance
+        birbYAccel = gravity + yAcceleration -- yAirResistance
+        birbXAccel = xAcceleration --- xAirResistance--will eventually be air resistance
         activebirb = flyingbirb
     else
         if birbVx > 0.5 then
