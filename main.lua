@@ -25,6 +25,9 @@ local yAirResistance = 0
 local activebirb
 local mousex = 100
 local mousey = 100
+local launchForce = 50
+local LFx = 0
+local LFy = 0
 forceArrow = {mode="fill", x=100, y=100, length=100,width=20, theta=math.rad(-90)}
 user = { x = 100, y = 200, theta = 90}
 function getForceArrowAngle(Xi, Yi, Xf, Yf)
@@ -57,6 +60,16 @@ end
 function love.update(dt)
     -- if love.keyboard.isDown("up") then
     -- end
+    LFx = launchForce*forceArrow.length*math.cos(forceArrow.theta)
+    LFy = launchForce*forceArrow.length*math.sin(forceArrow.theta)
+    if love.keyboard.isDown('r') then
+        Fx = 0
+        Fy = 0
+        birbx = 100
+        birby = 100
+        birbVx = 0
+        birbVy = 0
+    end
     if love.keyboard.isDown('escape') then
         love.event.push('quit')
     end
@@ -75,6 +88,10 @@ function love.update(dt)
         Fy = 200
     else
         Fy = 0
+    end
+    if love.keyboard.isDown("l") then
+        Fx = LFx
+        Fy = LFy
     end
     xAcceleration = Fx / birbMass
     yAcceleration = Fy / birbMass
