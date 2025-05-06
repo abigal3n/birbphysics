@@ -28,8 +28,12 @@ local mousey = 100
 local launchForce = 50
 local LFx = 0
 local LFy = 0
+local birbForce = 0
+local cubeMass = 100
+
 forceArrow = {mode="fill", x=100, y=100, length=100,width=20, theta=math.rad(-90)}
 user = { x = 100, y = 200, theta = 90}
+cube = { mode="fill",x = 500, y = 500, w = 50, h = 50}
 function getForceArrowAngle(Xi, Yi, Xf, Yf)
     Dx = Xf - Xi
     Dy = Yf - Yi
@@ -119,6 +123,13 @@ function love.update(dt)
         birbVy = (birbVy*birbMass) / (birbMass + groundMass)
         activebirb = birb
     end
+    birbEdge = birbx+activebirb:getWidth()*0.1
+    if birbEdge > cube.x and birby == cube.y then
+        birbXAccel = 0
+        birbYAccel = 0
+        birbVx = -(birbVx*birbMass) / (birbMass + cubeMass)
+        birbVy = -(birbVy*birbMass)/(birbMass+ cubeMass)
+    end
     birbVx = birbVx + birbXAccel * dt
     birbVy = birbVy + birbYAccel * dt
     birbx = birbx + birbVx * dt
@@ -132,10 +143,13 @@ function love.draw()
     love.graphics.setFont(basicFont)
     love.graphics.print(tostring(birbYAccel), 500, 500)
     love.graphics.print(tostring(birbXAccel), 700, 500)
+    love.graphics.print(tostring(cube.x), 700, 200)
+    love.graphics.print(tostring(birbx), 700, 400)
     --love.graphics.scale(0.2, 0.2)
     -- love.graphics.draw(trum, trumx, trumy)
     drawRotatedRectangle(forceArrow.mode,forceArrow.x,forceArrow.y,forceArrow.width,forceArrow.length,forceArrow.theta-math.rad(90))
     love.graphics.draw(activebirb, birbx, birby, 0, 0.1, 0.1)
+    love.graphics.rectangle(cube.mode, cube.x, cube.y, cube.w, cube.h)
     --love.graphics.scale(1,1)
 end
 
