@@ -1,10 +1,10 @@
 
 local trumx = 500
 local trumy = 200
-local birbx = 0
-local birby = 500
-local birbVx = 50
-local birbVy = -100
+local birbx = 100
+local birby = 100
+local birbVx = 0
+local birbVy = 0
 local birbMass = 5
 local groundMass = 1000000000
 local gravity = 9.8
@@ -23,7 +23,29 @@ local xAcceleration = Fx / birbMass
 local xAirResistance = 0
 local yAirResistance = 0
 local activebirb
+local mousex = 100
+local mousey = 100
+forceArrow = {mode="fill", x=100, y=100, length=100,width=20, theta=math.rad(-90)}
 user = { x = 100, y = 200, theta = 90}
+function getForceArrowAngle(Xi, Yi, Xf, Yf)
+    Dx = Xf - Xi
+    Dy = Yf - Yi
+    theta = math.atan(Dy/Dx)
+    return theta
+end
+function getForceArrowMagnitude(Xi, Yi, Xf, Yf)
+    Dx = Xf - Xi
+    Dy = Yf - Yi
+    mag = math.sqrt(Dy*Dy + Dx*Dx)
+    return mag
+end
+function drawRotatedRectangle(mode,x,y,w,h,theta)
+    love.graphics.push()
+	love.graphics.translate(x, y)
+	love.graphics.rotate(theta)
+	love.graphics.rectangle(mode, 0, 0, w, h)
+    love.graphics.pop()
+end
 function love.load()
     birb = love.graphics.newImage("birb.png")
     flyingbirb = love.graphics.newImage("flyingbirb.png")
@@ -58,7 +80,12 @@ function love.update(dt)
     yAcceleration = Fy / birbMass
     --xAirResistance = (0.5 * 1.293 * 0.4 * birbVx*birbVx * activebirb:getWidth() * activebirb:getWidth())
     --yAirResistance = (0.5 * 1.293 * 0.4 * birbVy*birbVy * activebirb:getWidth()* activebirb:getWidth())
-    if birby < 2300 then
+    if birby == 100 and birbx == 100 then
+        gravity = 0
+    else
+        gravity = 9.8
+    end
+    if birby < 500 then
         birbYAccel = gravity + yAcceleration -- yAirResistance
         birbXAccel = xAcceleration --- xAirResistance--will eventually be air resistance
         activebirb = flyingbirb
@@ -88,8 +115,18 @@ function love.draw()
     love.graphics.setFont(basicFont)
     love.graphics.print(tostring(birbYAccel), 500, 500)
     love.graphics.print(tostring(birbXAccel), 700, 500)
-    love.graphics.scale(0.2, 0.2)
+    --love.graphics.scale(0.2, 0.2)
     -- love.graphics.draw(trum, trumx, trumy)
-    love.graphics.draw(activebirb, birbx, birby)
-    love.graphics.scale(1,1)
+    drawRotatedRectangle(forceArrow.mode,forceArrow.x,forceArrow.y,forceArrow.width,forceArrow.length,forceArrow.theta-math.rad(90))
+    love.graphics.draw(activebirb, birbx, birby, 0, 0.1, 0.1)
+    --love.graphics.scale(1,1)
+end
+
+function love.mousepressed(x,y,button,istouch)
+    if button == 1 then
+        mousex = x
+        mousey = y
+    end
+    forceArrow.length = getForceArrowMagnitude(forceArrow.x, forceArrow.y, mousex, mousey)
+    forceArrow.theta = getForceArrowAngle(forceArrow.x, forceArrow.y, mousex, mousey)
 end
